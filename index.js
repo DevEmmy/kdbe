@@ -41,6 +41,6 @@ app.use('/sub-category', subCategoryRouter)
 app.use('/auth', userRouter)
 
 
-const port = 5555
+const port = process.env.PORT
 
 app.listen(port, ()=>{console.log(`Port ${port} is running`)})
