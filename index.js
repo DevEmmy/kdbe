@@ -17,8 +17,8 @@ const app = express();
 app.use(cors())
 
 
-const uri = process.env.DB_URI
-// "mongodb://localhost:27017/kde"
+const uri =  "mongodb://localhost:27017/kde"
+// process.env.DB_URI
 
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.json({limit:"30mb", extended: true}));
@@ -41,6 +41,6 @@ app.use('/sub-category', subCategoryRouter)
 app.use('/auth', userRouter)
 
 
-const port = process.env.PORT
+const port = process.env.PORT || 5555
 
 app.listen(port, ()=>{console.log(`Port ${port} is running`)})

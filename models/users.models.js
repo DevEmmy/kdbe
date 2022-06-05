@@ -6,7 +6,7 @@ const userSchema = new Schema({
     fullName: String,
     password: String,
     email: String,
-    savedListing: Array,
+    savedListing: [{type: Schema.Types.ObjectId, ref:"ListingModel"}],
     isAdmin: {type: Boolean, default: false}
 }, 
     {timestamps: true}

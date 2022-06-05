@@ -15,7 +15,7 @@ router.get("/:title", (req, res)=>{
         .catch(err => res.json(err))
 })
     
-router.get("/category/:category.", (req, res)=>{
+router.get("/category/:category", (req, res)=>{
         const category = req.params.category
         ListingModel.find({category})
         
@@ -37,7 +37,11 @@ router.post("/", (req, res)=>{
           const id = req.params.id
           ListingModel.findById(id)
           .then(list => {
-              res.json(list)
+              list.category = req.body.category;
+              list.subCategory = req.body.subCategory
+              ListingModel.findByIdAndUpdate(id, list, {new:true})
+              .then(resp => res.json(resp))
+              .catch(err => res.json(err))
           })
           .catch(err => res.json(err))
 })

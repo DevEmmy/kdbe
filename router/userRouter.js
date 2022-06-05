@@ -58,7 +58,7 @@ router.route('/signin').post((req, res)=>{
 
 router.get('/profile', requireLogin, (req, res)=>{
     const email = req.user.email;
-    User.findOne({email})
+    User.findOne({email}).populate("savedListing")
     .then(user=>{
         res.status(200).json(user)
     })
@@ -70,6 +70,19 @@ router.get('/:userId', (req, res)=>{
     User.findById(userId)
     .then(user => res.json(user))
     .catch(err=> res.json(err))
+})
+
+router.put('/', requireLogin, (req, res)=>{
+    const userId = req.user._id
+    User.findById(userId)
+    .then(user=>{
+        let listing = req.body.listing;
+        user.savedListing.push(listing)
+        User.findByIdAndUpdate(userId, user, {new: true}).populate("savedListing")
+        .then(resp => res.json(resp))
+        .catch(err => res.json(err))
+    })
+    .catch(err => res.json(err))
 })
 
 module.exports = router;
